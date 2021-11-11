@@ -1,5 +1,6 @@
 #include <iostream>
 #include <bits/stdc++.h>
+#include "conio.h"
 
 
 ////Colors////
@@ -7,11 +8,16 @@
 #define RED  "\x1B[31m"
 #define GRN  "\x1B[32m"
 #define MAG  "\x1B[35m"
+#define YLW  "\x1B[33m"
 //////////////
 
 using namespace std;
 
 /////Variables////
+enum eDir {PRESS_I, STOP, LEFT, RIGHT, UP, DOWN };
+eDir dir;
+int dirX , dirY ;
+bool gameOver = false;
 int gameMode = 0;
 const int n = 9;
 int tableForCheck[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
@@ -24,7 +30,7 @@ int tableForCheck[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                    {0, 3, 0, 0, 0, 0, 0, 6, 0},
                    {0, 0, 0, 9, 3, 4, 0, 0, 0}};
 
-int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
+int table[n][n] = {{1, 4, 5, 2, 0, 0, 7, 8, 0},
                            {6, 0, 0, 0, 0, 0, 0, 0, 9},
                            {0, 0, 0, 1, 8, 9, 0, 0, 0},
                            {0, 0, 2, 0, 6, 0, 1, 0, 0},
@@ -60,6 +66,35 @@ int easyTable[n][n] = {{9, 4, 5, 3, 2, 6, 7, 8, 1},
 
 
 //////Function declarations//////
+
+void Input() {
+
+    if (_kbhit()) {
+        switch (getch())
+        {
+            case 'a':
+                dir = LEFT;
+                break;
+            case 'w':
+                dir = UP;
+                break;
+            case 's':
+                dir = DOWN;
+                break;
+            case 'd':
+                dir = RIGHT;
+                break;
+            case 'x':
+                gameOver = true;
+                break;
+            case 'i':
+                dir = PRESS_I;
+                break;
+        }
+    }else{
+        dir = STOP;
+    }
+}
 
 ///////Global//////////
 
@@ -109,6 +144,7 @@ bool checkCol(int v , int c){
 
 
 void Draw(int arr[n][n]){
+    cout << "\033[2J\033[1;1H";
     cout<< "  ";
     for(int i = 0; i <4*n; i ++){
 
@@ -118,23 +154,36 @@ void Draw(int arr[n][n]){
 
     for(int i = 0; i < n; i++){
         for(int j = 0; j < n; j++) {
-            if ((j == 0) || (j == 3) || (j == 6)) {
 
+            //karmir sahmannery
+            if ((j == 0) || (j == 3) || (j == 6)) {
                 cout << RED " | ";
             } else {
-
                 cout << MAG " | ";
             }
+            //erb der arjeq chka
             if (arr[i][j] == 0) {
-                cout << MAG "_";
+                if((dirX == j) && ( dirY == i)){
+                    cout<<YLW << "_";
+                }else {
+                    cout << MAG "_";
+                }
 
             } else if (arr[i][j] != 0 && tableForCheck[i][j] != 0) {
-                cout << MAG << arr[i][j];
+
+                if((dirX == j) && ( dirY == i)){
+                    cout<<YLW << arr[i][j];
+                }else {
+                    cout << MAG << arr[i][j];
+                }
             } else {
-                cout << GRN << arr[i][j];
 
+                if((dirX == j) && ( dirY == i)){
+                    cout<<YLW << arr[i][j];
+                }else {
+                    cout << GRN << arr[i][j];
+                }
             }
-
 
         }
 
@@ -153,28 +202,63 @@ void Draw(int arr[n][n]){
 
 }
 
-void Logic(){
+void Logic() {
 
-    cout<<endl;
-    int x = 0;
-    do{cout<<GRN "Գրեք տողը:"; cin>>x;}while((x < 1) || (x > 9) );
+    switch (dir) {
+        case LEFT:
+            dirX--;
+            break;
+        case RIGHT:
+            dirX++;
+            break;
+        case UP:
+            dirY--;
+            break;
+        case DOWN:
+            dirY++;
+            break;
 
-    int y = 0;
-    do{cout<<GRN "Գրեք սյունը:"; cin>>y;}while((y < 1) || (y > 9) );
+        case PRESS_I:
+            if (tableForCheck[dirX][dirY] == 0) {
+                cout << RED "Դիրքը զբաղված է, փորձեք այլ դիրք" << endl;
+                break;
+            } else {
+                int newVal = 0;
 
-    if(tableForCheck[x-1][y-1]){
-        cout<< RED "Դիրքը զբաղված է, փորձեք այլ դիրք"<<endl;
-    }else {
-        int value = 0;
-        do {
-            cout << "Գրեք ներմուծվող արժեքը:";
-            cin >> value;
-            cout<<endl;
-        }
-        while ((value < 1) || (value > 9));
+                cout << dirY << " " << dirX << endl;
+                cout << GRN "Insert New Value: ";
+                cin >> newVal;
 
-        table[x - 1][y - 1] = value;
+                table[dirY][dirX] = newVal;
+                break;
+            }
+
+        case STOP:
+            break;
     }
+
+
+    /*  cout<<endl;
+      int x = 0;
+      do{cout<<GRN "Գրեք տողը:"; cin>>x;}while((x < 1) || (x > 9) );
+
+      int y = 0;
+      do{cout<<GRN "Գրեք սյունը:"; cin>>y;}while((y < 1) || (y > 9) );
+
+      if(tableForCheck[x-1][y-1]){
+          cout<< RED "Դիրքը զբաղված է, փորձեք այլ դիրք"<<endl;
+      }else {
+          int value = 0;
+          do {
+              cout << "Գրեք ներմուծվող արժեքը:";
+              cin >> value;
+              cout<<endl;
+          }
+          while ((value < 1) || (value > 9));
+
+          table[x - 1][y - 1] = value;
+      }*/
+
 }
 
 bool isFull(int arr[n][n]){
@@ -275,28 +359,27 @@ int main(){
 
     Welcome();
 
-    if(gameMode == 1){
-        //EasyMode
-        while(!winEasyMode(easyTable)){
-            cout << "\033[2J\033[1;1H";
-            Draw(easyTable);
-            easyLogic();
-        }
+       if(gameMode == 1){
+           //EasyMode
+           while(!winEasyMode(easyTable) && !(gameOver)){
+               cout << "\033[2J\033[1;1H";
+               Draw(easyTable);
+               easyLogic();
+           }
 
-        Draw(easyTable);
-        cout<<"You WIN";
 
-    }else if(gameMode == 2){
-        //HardMode
-        while(!win(table)) {
-            cout << "\033[2J\033[1;1H";
-            Draw(table);
-            Logic();
-        }
+       }else if(gameMode == 2){
+           //HardMode
+           while(!win(table) && !(gameOver)) {
+               cout << "\033[2J\033[1;1H";
+               Draw(table);
+               Input();
+               Logic();
+               cout<<endl;
 
-        Draw(table);
-        cout<<"You WIN";
-    }
+           }
+
+       }
 
 
 
