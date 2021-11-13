@@ -1,20 +1,25 @@
 #include <iostream>
 #include <bits/stdc++.h>
 #include "conio.h"
-
+#include <chrono>
+#include <thread>
 
 ////Colors////
 #define RST  "\x1B[0m"
 #define RED  "\x1B[31m"
-#define GRN  "\x1B[32m"
-#define MAG  "\x1B[35m"
-#define YLW  "\x1B[33m"
+#define SYSTEXT "\x1B[96m"
+#define BORDER "\x1B[36;1m"
+#define innerBORDER "\x1B[37;0m"
+#define defPoint "\x1B[97m"
+#define GRN  "\x1B[92m"
+#define ACTIVE  "\x1B[93m"
+#define BOLD "\x1B[1m"
 //////////////
 
 using namespace std;
 
 /////Variables////
-enum eDir {PRESS_I, STOP, LEFT, RIGHT, UP, DOWN };
+enum eDir {n1,n2,n3,n4,n5,n6,n7,n8,n9, STOP, LEFT, RIGHT, UP, DOWN };
 eDir dir;
 int dirX , dirY ;
 bool gameOver = false;
@@ -87,8 +92,32 @@ void Input() {
             case 'x':
                 gameOver = true;
                 break;
-            case 'i':
-                dir = PRESS_I;
+            case '1':
+                dir = n1;
+                break;
+            case '2':
+                dir = n2;
+                break;
+            case '3':
+                dir = n3;
+                break;
+            case '4':
+                dir = n4;
+                break;
+            case '5':
+                dir = n5;
+                break;
+            case '6':
+                dir = n6;
+                break;
+            case '7':
+                dir = n7;
+                break;
+            case '8':
+                dir = n8;
+                break;
+            case '9':
+                dir = n9;
                 break;
         }
     }else{
@@ -100,6 +129,7 @@ void Input() {
 
 void SelectMode(){
     cout << "\033[2J\033[1;1H";
+    cout<< BOLD;
 
     cout<<GRN "Select game mode..."<<endl;
     cout<<RED "[1]" << GRN "Easy Mode" <<endl;
@@ -109,15 +139,6 @@ void SelectMode(){
 
 }
 
-void Welcome(){
-    cout << "\033[2J\033[1;1H";
-    int x = 0;
-    cout<<"             Welcome         "<<endl<<endl;
-    cout<< GRN "Սեղմեք "<< RED "[1]" << GRN ", այնուհետև " << RED "[Enter]" << GRN ", ոռրպեսզի խաղը սկսվի..."<<endl;
-    do{cin>>x;}while(x != 1);
-
-    if(x == 1){SelectMode();}
-}
 
 ///////////////////////
 
@@ -145,41 +166,47 @@ bool checkCol(int v , int c){
 
 void Draw(int arr[n][n]){
     cout << "\033[2J\033[1;1H";
+    cout<<dirX << " " << dirY;
+    this_thread::sleep_for(chrono::milliseconds(5));
     cout<< "  ";
-    for(int i = 0; i <4*n; i ++){
-
-        cout<< RED "=";
-    }
     cout<<endl;
 
     for(int i = 0; i < n; i++){
+        if(i == 0 || i == 3 || i == 6 ){
+           cout<< BORDER " ⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺";
+            cout<<endl;
+        }else if((i >= 1) || (i <= 8)  ){
+            cout<< innerBORDER " ⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺";
+            cout<<endl;
+        }
         for(int j = 0; j < n; j++) {
+
 
             //karmir sahmannery
             if ((j == 0) || (j == 3) || (j == 6)) {
-                cout << RED " | ";
+                cout << BORDER " । ";
             } else {
-                cout << MAG " | ";
+                cout << innerBORDER " ︱ ";
             }
             //erb der arjeq chka
             if (arr[i][j] == 0) {
                 if((dirX == j) && ( dirY == i)){
-                    cout<<YLW << "_";
+                    cout<<ACTIVE BOLD << "•";
                 }else {
-                    cout << MAG "_";
+                    cout << defPoint BOLD "•";
                 }
 
             } else if (arr[i][j] != 0 && tableForCheck[i][j] != 0) {
 
                 if((dirX == j) && ( dirY == i)){
-                    cout<<YLW << arr[i][j];
+                    cout<<ACTIVE << arr[i][j];
                 }else {
-                    cout << MAG << arr[i][j];
+                    cout << SYSTEXT << arr[i][j];
                 }
             } else {
 
                 if((dirX == j) && ( dirY == i)){
-                    cout<<YLW << arr[i][j];
+                    cout<<ACTIVE << arr[i][j];
                 }else {
                     cout << GRN << arr[i][j];
                 }
@@ -187,18 +214,14 @@ void Draw(int arr[n][n]){
 
         }
 
-
-        cout<< RED " | ";
+        cout<< BORDER " | ";
         cout<<endl;
 
 
 
     }
-    cout<< " ";
-    for(int i = 0; i <4*n; i ++){
-        cout<< RED "=";
-    }
-    cout<<endl;
+    cout<< BORDER " ⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺";
+    cout<<endl<<endl;
 
 }
 
@@ -216,23 +239,14 @@ void Logic() {
             break;
         case DOWN:
             dirY++;
-            break;
-
-        case PRESS_I:
-            if (tableForCheck[dirX][dirY] == 0) {
-                cout << RED "Դիրքը զբաղված է, փորձեք այլ դիրք" << endl;
-                break;
-            } else {
-                int newVal = 0;
-
-                cout << dirY << " " << dirX << endl;
-                cout << GRN "Insert New Value: ";
-                cin >> newVal;
-
-                table[dirY][dirX] = newVal;
+        case n1:
+            if(!tableForCheck[dirY][dirX] == 0){
                 break;
             }
-
+            else{
+                table[dirY][dirX] = 1;
+            }
+            break;
         case STOP:
             break;
     }
@@ -357,7 +371,7 @@ void easyLogic(){
 
 int main(){
 
-    Welcome();
+    SelectMode();
 
        if(gameMode == 1){
            //EasyMode
