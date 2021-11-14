@@ -24,15 +24,7 @@ int dirX , dirY ;
 bool gameOver = false;
 int gameMode = 0;
 const int n = 9;
-int tableForCheck[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
-                   {6, 0, 0, 0, 0, 0, 0, 0, 9},
-                   {0, 0, 0, 1, 8, 9, 0, 0, 0},
-                   {0, 0, 2, 0, 6, 0, 1, 0, 0},
-                   {0, 0, 6, 5, 0, 7, 4, 0, 0},
-                   {0, 5, 0, 2, 0, 8, 0, 3, 0},
-                   {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                   {0, 3, 0, 0, 0, 0, 0, 6, 0},
-                   {0, 0, 0, 9, 3, 4, 0, 0, 0}};
+int tableForCheck[n][n];
 
 int table[n][n] = {{1, 4, 5, 2, 0, 0, 7, 8, 0},
                            {6, 0, 0, 0, 0, 0, 0, 0, 9},
@@ -71,10 +63,27 @@ int easyTable[n][n] = {{9, 4, 5, 3, 2, 6, 7, 8, 1},
 
 //////Function declarations//////
 
+void Setup(int var){
+
+    if(var == 1){
+        for(int i = 0; i < n; i ++){
+            for(int j = 0; j < n ; j++ ){
+                tableForCheck[i][j] = easyTable[i][j];
+            }
+        }
+    }else if(var == 2){
+        for(int i = 0; i < n; i ++){
+            for(int j = 0; j < n ; j++ ){
+                tableForCheck[i][j] = table[i][j];
+            }
+        }
+    }
+}
+
 void Input() {
 
     if (_kbhit()) {
-        switch (getch())
+        switch (_getche())
         {
             case 'a':
                 dir = LEFT;
@@ -119,6 +128,9 @@ void Input() {
                 dir = n9;
                 break;
             case '0':
+                dir = n0;
+                break;
+            default:
                 dir = n0;
                 break;
         }
@@ -241,8 +253,9 @@ void Logic() {
             break;
         case DOWN:
             dirY++;
+            break;
         case n1:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -250,7 +263,7 @@ void Logic() {
             }
             break;
         case n2:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -258,7 +271,7 @@ void Logic() {
             }
             break;
         case n3:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -266,14 +279,15 @@ void Logic() {
             }
             break;
         case n4:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
                 table[dirY][dirX] = 4;
             }
-            break;case n5:
-            if(!tableForCheck[dirY][dirX] == 0){
+            break;
+        case n5:
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -281,7 +295,7 @@ void Logic() {
             }
             break;
         case n6:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -289,7 +303,7 @@ void Logic() {
             }
             break;
         case n7:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -297,7 +311,7 @@ void Logic() {
             }
             break;
         case n8:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -305,7 +319,7 @@ void Logic() {
             }
             break;
         case n9:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -313,7 +327,7 @@ void Logic() {
             }
             break;
         case n0:
-            if(!tableForCheck[dirY][dirX] == 0){
+            if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
             else{
@@ -444,10 +458,10 @@ void easyLogic(){
 //////////
 
 int main(){
-
     SelectMode();
 
        if(gameMode == 1){
+           Setup(1);
            //EasyMode
            while(!winEasyMode(easyTable) && !(gameOver)){
                cout << "\033[2J\033[1;1H";
@@ -457,6 +471,7 @@ int main(){
 
 
        }else if(gameMode == 2){
+           Setup(2);
            //HardMode
            while(!win(table) && !(gameOver)) {
                cout << "\033[2J\033[1;1H";
