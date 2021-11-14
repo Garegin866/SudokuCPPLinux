@@ -5,7 +5,6 @@
 #include <thread>
 
 ////Colors////
-#define RST  "\x1B[0m"
 #define RED  "\x1B[31m"
 #define SYSTEXT "\x1B[96m"
 #define BORDER "\x1B[36;1m"
@@ -132,10 +131,9 @@ void SelectMode(){
     cout<< BOLD;
 
     cout<<GRN "Select game mode..."<<endl;
-    cout<<RED "[1]" << GRN "Easy Mode" <<endl;
-    cout<<RED "[2]" << GRN "Hard Mode"<<endl;
-    cout<< RST "Select: ";
-    do{ cout<< RST "Select: "; cin>>gameMode;}while(!((gameMode == 1) || (gameMode == 2)));
+    cout<<SYSTEXT "[1]" << GRN "Easy Mode" <<endl;
+    cout<<BORDER "[2]" << GRN "Hard Mode"<<endl;
+    do{ cout<< defPoint "Select: "; cin>>gameMode;}while(!((gameMode == 1) || (gameMode == 2)));
 
 }
 
@@ -173,10 +171,11 @@ void Draw(int arr[n][n]){
 
     for(int i = 0; i < n; i++){
         if(i == 0 || i == 3 || i == 6 ){
-           cout<< BORDER " ⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺";
+            cout<< BORDER " ###########################################";
             cout<<endl;
         }else if((i >= 1) || (i <= 8)  ){
-            cout<< innerBORDER " ⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺";
+            cout<< BORDER " #" << innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺ " BORDER "#" innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺ "  BORDER "#" innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺  " << BORDER "#";
+
             cout<<endl;
         }
         for(int j = 0; j < n; j++) {
@@ -184,7 +183,7 @@ void Draw(int arr[n][n]){
 
             //karmir sahmannery
             if ((j == 0) || (j == 3) || (j == 6)) {
-                cout << BORDER " । ";
+                cout << BORDER " # ";
             } else {
                 cout << innerBORDER " ︱ ";
             }
@@ -214,13 +213,13 @@ void Draw(int arr[n][n]){
 
         }
 
-        cout<< BORDER " | ";
+        cout<< BORDER " # ";
         cout<<endl;
 
 
 
     }
-    cout<< BORDER " ⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺";
+    cout<< BORDER " ###########################################";
     cout<<endl<<endl;
 
 }
@@ -360,7 +359,7 @@ void easyLogic(){
             return;
         }
 
-        cout<<RED "Դուք չեք կարող դնել " << RST << value <<RED  " արժեքը " << RST " ( " << x << " : " << y << " ) " << RED " դիրքում։ \n";
+        cout<<RED "Դուք չեք կարող դնել " << defPoint << value <<RED  " արժեքը " << defPoint " ( " << x << " : " << y << " ) " << RED " դիրքում։ \n";
 
 
     }
