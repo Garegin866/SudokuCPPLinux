@@ -40,6 +40,18 @@ int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
 
 
 
+int easyTable[n][n] = {{7, 0, 0, 0, 4, 0, 0, 0, 3},
+                       {0, 0, 1, 0, 8, 0, 5, 0, 0},
+                       {0, 5, 3, 7, 1, 0, 4, 2, 0},
+                       {0, 0, 0, 0, 0, 0, 2, 0, 0},
+                       {2, 1, 6, 0, 0, 0, 8, 9, 5},
+                       {0, 0, 4, 0, 0, 0, 0, 0, 0},
+                       {0, 4, 7, 0, 9, 8, 6, 3, 0},
+                       {0, 0, 5, 0, 7, 0, 1, 0, 0},
+                       {3, 0, 0, 0, 2, 0, 0, 0, 9}};
+
+
+
 /*int easyTable[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                    {6, 0, 0, 0, 0, 0, 0, 0, 9},
                    {0, 0, 0, 1, 8, 9, 0, 0, 0},
@@ -50,15 +62,19 @@ int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                    {0, 3, 0, 0, 0, 0, 0, 6, 0},
                    {0, 0, 0, 9, 3, 4, 0, 0, 0}};*/
 
-int easyTable[n][n] = {{9, 4, 5, 3, 2, 6, 7, 8, 1},
-                   {6, 1, 8, 7, 4, 5, 3, 2, 9},
-                   {2, 7, 3, 1, 8, 9, 5, 4, 6},
-                   {7, 9, 2, 4, 6, 3, 1, 5, 8},
-                   {3, 8, 6, 5, 0, 7, 4, 0, 2},
-                   {1, 5, 4, 2, 9, 8, 6, 3, 7},
-                   {4, 2, 9, 6, 5, 0, 8, 7, 3},
-                   {5, 3, 1, 8, 7, 2, 0, 6, 4},
-                   {8, 6, 7, 9, 3, 4, 2, 1, 5}};
+/*
+int easyTable[n][n] = {
+                      {9, 4, 5, 3, 2, 6, 7, 8, 1},
+                      {6, 1, 8, 7, 4, 5, 3, 2, 9},
+                      {2, 7, 3, 1, 8, 9, 5, 4, 6},
+                      {7, 9, 2, 4, 6, 3, 1, 5, 8},
+                      {3, 8, 6, 5, 0, 7, 4, 0, 2},
+                      {1, 5, 4, 2, 9, 8, 6, 3, 7},
+                      {4, 2, 9, 6, 5, 0, 8, 7, 3},
+                      {5, 3, 1, 8, 7, 2, 0, 6, 4},
+                      {8, 6, 7, 9, 3, 4, 2, 1, 5}
+};
+*/
 
 
 //////////////////
@@ -135,7 +151,6 @@ void Input() {
                 dir = n0;
                 break;
             default:
-                dir = n0;
                 break;
         }
     }else{
@@ -400,8 +415,8 @@ bool EasyCheckRow(int v, int r){
 
 bool EasyCheckCol(int v, int c){
     int count = 0;
-    for(int j = 0; j < n; j++){
-        if(easyTable[j][c] == v){count++;}
+    for(auto & j : easyTable){
+        if(j[c] == v){count++;}
     }
 
     if(count == 0){
@@ -412,7 +427,106 @@ bool EasyCheckCol(int v, int c){
 }
 
 bool EasyCheckTab(int v ,int c, int r){
+    if(((c >= 0)&&(c<= 2))&&((r >= 0)&& (r<= 2))){
 
+        for(int i = 0; i <= 2; i++){
+            for(int j = 0; j <= 2; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }else if(((c >= 3)&&(c<= 5))&&((r >= 0)&& (r<= 2))){
+
+        for(int i = 0; i <= 2; i++){
+            for(int j = 3; j <= 5; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    } else if(((c >= 6)&&(c<= 8))&&((r >= 0)&& (r<= 2))){
+
+        for(int i = 0; i <= 2; i++){
+            for(int j = 6; j <= 8; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }else if(((c >= 0)&&(c<= 2))&&((r >= 3)&& (r<= 5))){
+
+        for(int i = 3; i <= 5; i++){
+            for(int j = 0; j <= 2; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }else if(((c >= 3)&&(c<= 5))&&((r >= 3)&& (r<= 5))){
+
+        for(int i = 3; i <= 5; i++){
+            for(int j = 3; j <= 5; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    } else if(((c >= 6)&&(c<= 8))&&((r >= 3)&& (r<= 5))){
+
+        for(int i = 3; i <= 5; i++){
+            for(int j = 6; j <= 8; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }else if(((c >= 0)&&(c<= 2))&&((r >= 6)&& (r<= 8))){
+
+        for(int i = 6; i <= 8; i++){
+            for(int j = 0; j <= 2; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }else if(((c >= 3)&&(c<= 5))&&((r >= 6)&& (r<= 8))){
+
+        for(int i = 6; i <= 8; i++){
+            for(int j = 3; j <= 5; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    } else if(((c >= 6)&&(c<= 8))&&((r >= 6)&& (r<= 8))){
+
+        for(int i = 6; i <= 8; i++){
+            for(int j = 6; j <= 8; j++){
+                if(easyTable[i][j] == v){
+                    return false;
+                }
+            }
+        }
+        return true;
+
+    }
 }
 
 bool winEasyMode(int arr[n][n]){
@@ -455,74 +569,101 @@ void easyLogic(){
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(1, dirX) && EasyCheckRow(1 , dirY) && EasyCheckTab(1, dirX, dirY)){
                 easyTable[dirY][dirX] = 1;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n2:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(2, dirX) && EasyCheckRow(2 , dirY) && EasyCheckTab(2, dirX, dirY)){
                 easyTable[dirY][dirX] = 2;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n3:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(3, dirX) && EasyCheckRow(3, dirY) && EasyCheckTab(3, dirX, dirY)){
                 easyTable[dirY][dirX] = 3;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n4:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(4, dirX) && EasyCheckRow(4 , dirY) && EasyCheckTab(4, dirX, dirY)){
                 easyTable[dirY][dirX] = 4;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n5:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(5, dirX) && EasyCheckRow(5 , dirY) && EasyCheckTab(5, dirX, dirY)){
                 easyTable[dirY][dirX] = 5;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n6:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(6, dirX) && EasyCheckRow(6 , dirY) && EasyCheckTab(6, dirX, dirY)){
                 easyTable[dirY][dirX] = 6;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n7:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(7, dirX) && EasyCheckRow(7 , dirY) && EasyCheckTab(7, dirX, dirY)){
                 easyTable[dirY][dirX] = 7;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n8:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(8, dirX) && EasyCheckRow(8 , dirY) && EasyCheckTab(8, dirX, dirY)){
                 easyTable[dirY][dirX] = 8;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n9:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
             }
-            else{
+            else if(EasyCheckCol(9, dirX) && EasyCheckRow(9 , dirY) && EasyCheckTab(9, dirX, dirY)){
                 easyTable[dirY][dirX] = 9;
+                break;
+            }else{
+                easyTable[dirY][dirX] = 0;
+                break;
             }
-            break;
         case n0:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
@@ -558,8 +699,8 @@ int main(){
            if(!gameOver){
                cout<<endl;
                Draw(easyTable);
-               cout<<RED "Congratulations!!!";
-               cout<< RED "You won the game"<<endl;
+               cout<<RED "Congratulations!!!\n";
+               cout<< RED "You won the game\n"<<endl;
            }
 
 
