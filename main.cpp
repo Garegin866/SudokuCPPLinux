@@ -18,7 +18,7 @@
 using namespace std;
 
 /////Variables////
-enum eDir {n1,n2,n3,n4,n5,n6,n7,n8,n9, STOP, LEFT, RIGHT, UP, DOWN };
+enum eDir {n0,n1,n2,n3,n4,n5,n6,n7,n8,n9, STOP, LEFT, RIGHT, UP, DOWN };
 eDir dir;
 int dirX , dirY ;
 bool gameOver = false;
@@ -117,6 +117,9 @@ void Input() {
                 break;
             case '9':
                 dir = n9;
+                break;
+            case '0':
+                dir = n0;
                 break;
         }
     }else{
@@ -246,6 +249,78 @@ void Logic() {
                 table[dirY][dirX] = 1;
             }
             break;
+        case n2:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 2;
+            }
+            break;
+        case n3:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 3;
+            }
+            break;
+        case n4:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 4;
+            }
+            break;case n5:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 5;
+            }
+            break;
+        case n6:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 6;
+            }
+            break;
+        case n7:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 7;
+            }
+            break;
+        case n8:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 8;
+            }
+            break;
+        case n9:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 9;
+            }
+            break;
+        case n0:
+            if(!tableForCheck[dirY][dirX] == 0){
+                break;
+            }
+            else{
+                table[dirY][dirX] = 0;
+            }
+            break;
+
         case STOP:
             break;
     }
