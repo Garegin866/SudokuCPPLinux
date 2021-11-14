@@ -22,11 +22,12 @@ enum eDir {n0,n1,n2,n3,n4,n5,n6,n7,n8,n9, STOP, LEFT, RIGHT, UP, DOWN };
 eDir dir;
 int dirX , dirY ;
 bool gameOver = false;
+bool gameWin = false;
 int gameMode = 0;
 const int n = 9;
 int tableForCheck[n][n];
 
-int table[n][n] = {{1, 4, 5, 2, 0, 0, 7, 8, 0},
+int table[n][n] = {{0, 4, 5, 2, 0, 0, 7, 8, 0},
                            {6, 0, 0, 0, 0, 0, 0, 0, 9},
                            {0, 0, 0, 1, 8, 9, 0, 0, 0},
                            {0, 0, 2, 0, 6, 0, 1, 0, 0},
@@ -62,6 +63,7 @@ int easyTable[n][n] = {{9, 4, 5, 3, 2, 6, 7, 8, 1},
 
 
 //////Function declarations//////
+//////////Global//////////
 
 void Setup(int var){
 
@@ -139,16 +141,14 @@ void Input() {
     }
 }
 
-///////Global//////////
-
 void SelectMode(){
     cout << "\033[2J\033[1;1H";
     cout<< BOLD;
 
     cout<<GRN "Select game mode..."<<endl;
-    cout<<SYSTEXT "[1]" << GRN "Easy Mode" <<endl;
-    cout<<BORDER "[2]" << GRN "Hard Mode"<<endl;
-    do{ cout<< defPoint "Select: "; cin>>gameMode;}while(!((gameMode == 1) || (gameMode == 2)));
+    cout<<SYSTEXT "[1]" << "Easy Mode" <<endl;
+    cout<<RED "[2]" << "Hard Mode"<<endl<<endl;
+    do{ cout<< GRN "Select: "; cin>>gameMode;}while(!((gameMode == 1) || (gameMode == 2)));
 
 }
 
@@ -176,10 +176,9 @@ bool checkCol(int v , int c){
     return false;
 }
 
-
 void Draw(int arr[n][n]){
     cout << "\033[2J\033[1;1H";
-    cout<<dirX << " " << dirY;
+
     this_thread::sleep_for(chrono::milliseconds(5));
     cout<< "  ";
     cout<<endl;
@@ -243,17 +242,33 @@ void Logic() {
 
     switch (dir) {
         case LEFT:
-            dirX--;
-            break;
+            if(dirX > 0){
+                dirX--;
+                break;
+            }else{
+                break;
+            }
         case RIGHT:
-            dirX++;
-            break;
+            if(dirX <8){
+                dirX++;
+                break;
+            }else{
+                break;
+            }
         case UP:
-            dirY--;
-            break;
+            if(dirY > 0){
+                dirY--;
+                break;
+            }else{
+                break;
+            }
         case DOWN:
-            dirY++;
-            break;
+            if(dirY <8){
+                dirY++;
+                break;
+            }else{
+                break;
+            }
         case n1:
             if(tableForCheck[dirY][dirX] != 0){
                 break;
@@ -339,28 +354,6 @@ void Logic() {
             break;
     }
 
-
-    /*  cout<<endl;
-      int x = 0;
-      do{cout<<GRN "Գրեք տողը:"; cin>>x;}while((x < 1) || (x > 9) );
-
-      int y = 0;
-      do{cout<<GRN "Գրեք սյունը:"; cin>>y;}while((y < 1) || (y > 9) );
-
-      if(tableForCheck[x-1][y-1]){
-          cout<< RED "Դիրքը զբաղված է, փորձեք այլ դիրք"<<endl;
-      }else {
-          int value = 0;
-          do {
-              cout << "Գրեք ներմուծվող արժեքը:";
-              cin >> value;
-              cout<<endl;
-          }
-          while ((value < 1) || (value > 9));
-
-          table[x - 1][y - 1] = value;
-      }*/
-
 }
 
 bool isFull(int arr[n][n]){
@@ -381,7 +374,7 @@ bool win(int arr[n][n]){
     if(isFull(arr)){
         for(int i = 0; i < n; i++){
             for(int j = 0; j < n; j++){
-                if(!(checkRow(table[i][j], i ) && checkCol(table[i][j], j))){
+                if(!(checkRow(arr[i][j], i ) && checkCol(arr[i][j], j))){
                     return false;
                 }
             }
@@ -427,31 +420,120 @@ bool winEasyMode(int arr[n][n]){
 void easyLogic(){
     cout<<endl;
     int x = 0;
-    do{cout<<GRN "Գրեք տողը:"; cin>>x;}while((x < 1) || (x > 9) );
+    switch (dir) {
+        case LEFT:
+            if(dirX > 0){
+                dirX--;
+                break;
+            }else{
+                break;
+            }
+        case RIGHT:
+            if(dirX <8){
+                dirX++;
+                break;
+            }else{
+                break;
+            }
+        case UP:
+            if(dirY > 0){
+                dirY--;
+                break;
+            }else{
+                break;
+            }
+        case DOWN:
+            if(dirY <8){
+                dirY++;
+                break;
+            }else{
+                break;
+            }
+        case n1:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 1;
+            }
+            break;
+        case n2:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 2;
+            }
+            break;
+        case n3:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 3;
+            }
+            break;
+        case n4:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 4;
+            }
+            break;
+        case n5:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 5;
+            }
+            break;
+        case n6:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 6;
+            }
+            break;
+        case n7:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 7;
+            }
+            break;
+        case n8:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 8;
+            }
+            break;
+        case n9:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 9;
+            }
+            break;
+        case n0:
+            if(tableForCheck[dirY][dirX] != 0){
+                break;
+            }
+            else{
+                easyTable[dirY][dirX] = 0;
+            }
+            break;
 
-    int y = 0;
-    do{cout<<GRN "Գրեք սյունը:"; cin>>y;}while((y < 1) || (y > 9) );
-
-    if(tableForCheck[x-1][y-1]){
-        cout<< RED "Դիրքը զբաղված է, փորձեք այլ դիրք"<<endl;
-    }else{
-        int value = 0;
-        do {
-            cout << "Գրեք ներմուծվող արժեքը:";
-            cin >> value;
-            cout<<endl;
-        }
-        while ((value < 1) || (value > 9));
-
-        if(( EasyCheckCol(value, y) && EasyCheckRow(value, x))){
-            easyTable[x - 1][y - 1] = value;
-            return;
-        }
-
-        cout<<RED "Դուք չեք կարող դնել " << defPoint << value <<RED  " արժեքը " << defPoint " ( " << x << " : " << y << " ) " << RED " դիրքում։ \n";
-
-
+        case STOP:
+            break;
     }
+
 }
 
 
@@ -466,7 +548,9 @@ int main(){
            while(!winEasyMode(easyTable) && !(gameOver)){
                cout << "\033[2J\033[1;1H";
                Draw(easyTable);
+               Input();
                easyLogic();
+               cout<<endl;
            }
 
 
