@@ -27,7 +27,8 @@ int gameMode = 0;
 const int n = 9;
 int tableForCheck[n][n];
 
-int table[n][n] = {{0, 4, 5, 2, 0, 0, 7, 8, 0},
+
+int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                            {6, 0, 0, 0, 0, 0, 0, 0, 9},
                            {0, 0, 0, 1, 8, 9, 0, 0, 0},
                            {0, 0, 2, 0, 6, 0, 1, 0, 0},
@@ -38,7 +39,8 @@ int table[n][n] = {{0, 4, 5, 2, 0, 0, 7, 8, 0},
                            {0, 0, 0, 9, 3, 4, 0, 0, 0}};
 
 
-int easyTable[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
+
+/*int easyTable[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                    {6, 0, 0, 0, 0, 0, 0, 0, 9},
                    {0, 0, 0, 1, 8, 9, 0, 0, 0},
                    {0, 0, 2, 0, 6, 0, 1, 0, 0},
@@ -46,8 +48,8 @@ int easyTable[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                    {0, 5, 0, 2, 0, 8, 0, 3, 0},
                    {0, 0, 0, 0, 0, 0, 0, 0, 0},
                    {0, 3, 0, 0, 0, 0, 0, 6, 0},
-                   {0, 0, 0, 9, 3, 4, 0, 0, 0}};
-/*
+                   {0, 0, 0, 9, 3, 4, 0, 0, 0}};*/
+
 int easyTable[n][n] = {{9, 4, 5, 3, 2, 6, 7, 8, 1},
                    {6, 1, 8, 7, 4, 5, 3, 2, 9},
                    {2, 7, 3, 1, 8, 9, 5, 4, 6},
@@ -56,7 +58,7 @@ int easyTable[n][n] = {{9, 4, 5, 3, 2, 6, 7, 8, 1},
                    {1, 5, 4, 2, 9, 8, 6, 3, 7},
                    {4, 2, 9, 6, 5, 0, 8, 7, 3},
                    {5, 3, 1, 8, 7, 2, 0, 6, 4},
-                   {8, 6, 7, 9, 3, 4, 2, 1, 5}};*/
+                   {8, 6, 7, 9, 3, 4, 2, 1, 5}};
 
 
 //////////////////
@@ -179,7 +181,7 @@ bool checkCol(int v , int c){
 void Draw(int arr[n][n]){
     cout << "\033[2J\033[1;1H";
 
-    this_thread::sleep_for(chrono::milliseconds(5));
+    this_thread::sleep_for(chrono::milliseconds(8));
     cout<< "  ";
     cout<<endl;
 
@@ -553,6 +555,13 @@ int main(){
                cout<<endl;
            }
 
+           if(!gameOver){
+               cout<<endl;
+               Draw(easyTable);
+               cout<<RED "Congratulations!!!";
+               cout<< RED "You won the game"<<endl;
+           }
+
 
        }else if(gameMode == 2){
            Setup(2);
@@ -566,8 +575,14 @@ int main(){
 
            }
 
-       }
+           if(!gameOver){
+               cout<<endl;
+               Draw(table);
+               cout<<RED "Congratulations!!!\n";
+               cout<< RED "You won the game\n";
+           }
 
+       }
 
 
     return 0;
