@@ -27,6 +27,7 @@ int gameMode = 0;
 const int n = 9;
 int tableForCheck[n][n];
 
+/*
 
 int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                            {6, 0, 0, 0, 0, 0, 0, 0, 9},
@@ -37,6 +38,7 @@ int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                            {0, 0, 0, 0, 0, 0, 0, 0, 0},
                            {0, 3, 0, 0, 0, 0, 0, 6, 0},
                            {0, 0, 0, 9, 3, 4, 0, 0, 0}};
+*/
 
 
 
@@ -62,8 +64,8 @@ int easyTable[n][n] = {{7, 0, 0, 0, 4, 0, 0, 0, 3},
                    {0, 3, 0, 0, 0, 0, 0, 6, 0},
                    {0, 0, 0, 9, 3, 4, 0, 0, 0}};*/
 
-/*
-int easyTable[n][n] = {
+
+int table[n][n] = {
                       {9, 4, 5, 3, 2, 6, 7, 8, 1},
                       {6, 1, 8, 7, 4, 5, 3, 2, 9},
                       {2, 7, 3, 1, 8, 9, 5, 4, 6},
@@ -74,7 +76,7 @@ int easyTable[n][n] = {
                       {5, 3, 1, 8, 7, 2, 0, 6, 4},
                       {8, 6, 7, 9, 3, 4, 2, 1, 5}
 };
-*/
+
 
 
 //////////////////
@@ -105,15 +107,19 @@ void Input() {
     if (_kbhit()) {
         switch (_getche())
         {
+            case 68:
             case 'a':
                 dir = LEFT;
                 break;
+            case 65:
             case 'w':
                 dir = UP;
                 break;
+            case 66:
             case 's':
                 dir = DOWN;
                 break;
+            case 67:
             case 'd':
                 dir = RIGHT;
                 break;
@@ -183,8 +189,8 @@ bool checkRow(int v ,int r){
 
 bool checkCol(int v , int c){
     int count = 0;
-    for(int j = 0; j < n; j++){
-        if(table[j][c] == v){count++;}
+    for(auto & j : table){
+        if(j[c] == v){count++;}
     }
 
     if(count == 1){
@@ -204,10 +210,12 @@ void Draw(int arr[n][n]){
         if(i == 0 || i == 3 || i == 6 ){
             cout<< BORDER " ###########################################";
             cout<<endl;
-        }else if((i >= 1) || (i <= 8)  ){
-            cout<< BORDER " #" << innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺ " BORDER "#" innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺ "  BORDER "#" innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺  " << BORDER "#";
+        }else {
+            cout << BORDER " #"
+                 << innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺ " BORDER "#" innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺ "  BORDER "#" innerBORDER "⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺⸺  "
+                 << BORDER "#";
 
-            cout<<endl;
+            cout << endl;
         }
         for(int j = 0; j < n; j++) {
 
@@ -221,9 +229,9 @@ void Draw(int arr[n][n]){
             //erb der arjeq chka
             if (arr[i][j] == 0) {
                 if((dirX == j) && ( dirY == i)){
-                    cout<<ACTIVE BOLD << "•";
+                    cout<<ACTIVE BOLD << "▪";
                 }else {
-                    cout << defPoint BOLD "•";
+                    cout << defPoint BOLD "▫";
                 }
 
             } else if (arr[i][j] != 0 && tableForCheck[i][j] != 0) {
@@ -401,6 +409,8 @@ bool win(int arr[n][n]){
 
     return false;
 }
+
+
 
 ////////////////////////
 
@@ -713,6 +723,10 @@ int main(){
                Input();
                Logic();
                cout<<endl;
+               if(isFull(table)){
+                   cout<<RED "Change some values in the table";
+                   cout<<endl;
+               }
 
            }
 
