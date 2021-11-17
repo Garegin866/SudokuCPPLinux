@@ -30,6 +30,7 @@ const int n = 9;
 int tableForCheck[n][n];
 int table[n][n];
 int easyTable[n][n];
+int tableNewDig[n][n];
 int tableNewCol[n][n];
 int tableNewRow[n][n];
 int tableNew9x3[n][n];
@@ -57,7 +58,40 @@ int tableForGen[n][n] = {
 
 void RandomTable(int mode) {
 
+    //change some digits
 
+    for(int i=0;i<n;i++ ){
+        for(int j = 0; j < n; j++){
+
+            if(tableForGen[i][j] == 1){
+                tableNewDig[i][j] = 5;
+            }
+            if(tableForGen[i][j] == 2){
+                tableNewDig[i][j] = 8;
+            }
+            if(tableForGen[i][j] == 3){
+                tableNewDig[i][j] = 3;
+            }
+            if(tableForGen[i][j] == 4){
+                tableNewDig[i][j] = 6;
+            }
+            if(tableForGen[i][j] == 5){
+                tableNewDig[i][j] = 9;
+            }
+            if(tableForGen[i][j] == 6){
+                tableNewDig[i][j] = 2;
+            }
+            if(tableForGen[i][j] == 7){
+                tableNewDig[i][j] = 1;
+            }
+            if(tableForGen[i][j] == 8){
+                tableNewDig[i][j] = 4;
+            }
+            if(tableForGen[i][j] == 9){
+                tableNewDig[i][j] = 7;
+            }
+        }
+    }
     //change table by columns
 
     int arrCol[n];
@@ -79,14 +113,18 @@ void RandomTable(int mode) {
 
     for(int i = 0; i < n ; i++){
         for(int j = 0; j <n; j++){
-            tableNewCol[i][j] = tableForGen[i][arrCol[j]];
+            tableNewCol[i][j] = tableNewDig[i][arrCol[j]];
         }
     }
+
+    for(int i = 0; i <n; i++){
+        cout<<arrCol[i]<< " ";
+    }
+    cout<<endl;
 
     //change table by rows
 
     int arrRow[n];
-    srand ( time(NULL) );
     for(int i = 0; i < n;i+=3){
         int n1=i,n2 =i,n3=i;
         n1 = (rand() % 3);
@@ -108,10 +146,14 @@ void RandomTable(int mode) {
         }
     }
 
+    for(int i = 0; i <n; i++){
+        cout<<arrRow[i]<< " ";
+    }
+    cout<<endl;
+
     //change table by 9x3
 
     int arr9x3[3];
-    srand ( time(NULL) );
     int n1=0,n2 =0,n3=0;
     n1 =(rand() % 3);
     arr9x3[0] = n1;
@@ -132,11 +174,16 @@ void RandomTable(int mode) {
         }
     }
 
+    for(int i = 0; i <3; i++){
+        cout<<arr9x3[i]<< " ";
+    }
+    cout<<endl;
+
+
     //change table by 3x9
 
     int arr3x9[3];
 
-    srand ( time(NULL) );
     int m1=0,m2 =0,m3=0;
     m1 =(rand() % 3);
     arr3x9[0] = m1;
@@ -157,9 +204,15 @@ void RandomTable(int mode) {
         }
     }
 
+    for(int i = 0; i <3; i++){
+        cout<<arr3x9[i]<< " ";
+    }
+    cout<<endl;
+
+
     if(mode == 1){
         //easyTable
-        srand ( time(NULL) );
+
 
         int val =30 + (rand() % 45);
         val = 81 - val;
@@ -189,7 +242,7 @@ void RandomTable(int mode) {
     }else{
         //hard mode
 
-        srand ( time(NULL) );
+
 
         int val =20 + (rand() % 27);
         val = 81 - val;
