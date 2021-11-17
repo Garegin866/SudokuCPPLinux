@@ -3,6 +3,8 @@
 #include "conio.h"
 #include <chrono>
 #include <thread>
+#include <cstdlib>
+#include <ctime>
 
 ////Colors////
 #define RED  "\x1B[31m"
@@ -26,8 +28,10 @@ bool gameWin = false;
 int gameMode = 0;
 const int n = 9;
 int tableForCheck[n][n];
-
-/*
+int tableNewCol[n][n];
+int tableNewRow[n][n];
+int tableNew9x3[n][n];
+int tableNew3x9[n][n];
 
 int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                            {6, 0, 0, 0, 0, 0, 0, 0, 9},
@@ -38,7 +42,7 @@ int table[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
                            {0, 0, 0, 0, 0, 0, 0, 0, 0},
                            {0, 3, 0, 0, 0, 0, 0, 6, 0},
                            {0, 0, 0, 9, 3, 4, 0, 0, 0}};
-*/
+
 
 
 
@@ -54,27 +58,17 @@ int easyTable[n][n] = {{7, 0, 0, 0, 4, 0, 0, 0, 3},
 
 
 
-/*int easyTable[n][n] = {{0, 4, 5, 0, 0, 0, 7, 8, 0},
-                   {6, 0, 0, 0, 0, 0, 0, 0, 9},
-                   {0, 0, 0, 1, 8, 9, 0, 0, 0},
-                   {0, 0, 2, 0, 6, 0, 1, 0, 0},
-                   {0, 0, 6, 5, 0, 7, 4, 0, 0},
-                   {0, 5, 0, 2, 0, 8, 0, 3, 0},
-                   {0, 0, 0, 0, 0, 0, 0, 0, 0},
-                   {0, 3, 0, 0, 0, 0, 0, 6, 0},
-                   {0, 0, 0, 9, 3, 4, 0, 0, 0}};*/
 
-
-int table[n][n] = {
-                      {9, 4, 5, 3, 2, 6, 7, 8, 1},
-                      {6, 1, 8, 7, 4, 5, 3, 2, 9},
-                      {2, 7, 3, 1, 8, 9, 5, 4, 6},
-                      {7, 9, 2, 4, 6, 3, 1, 5, 8},
-                      {3, 8, 6, 5, 0, 7, 4, 0, 2},
-                      {1, 5, 4, 2, 9, 8, 6, 3, 7},
-                      {4, 2, 9, 6, 5, 0, 8, 7, 3},
-                      {5, 3, 1, 8, 7, 2, 0, 6, 4},
-                      {8, 6, 7, 9, 3, 4, 2, 1, 5}
+int tableForGen[n][n] = {
+                          {1, 2, 3, 4, 5, 6, 7, 8, 9},
+                          {4, 5, 6, 7, 8, 9, 1, 2, 3},
+                          {7, 8, 9, 1, 2, 3, 4, 5, 6},
+                          {2, 3, 1, 5, 6, 4, 8, 9, 7},
+                          {5, 6, 4, 8, 9, 7, 2, 3, 1},
+                          {8, 9, 7, 2, 3, 1, 5, 6, 4},
+                          {3, 1, 2, 6, 4, 5, 9, 7, 8},
+                          {6, 4, 5, 9, 7, 8, 3, 1, 2},
+                          {9, 7, 8, 3, 1, 2, 6, 4, 5}
 };
 
 
@@ -83,6 +77,174 @@ int table[n][n] = {
 
 
 //////Function declarations//////
+////Random table/////
+
+
+void RandomTable(int mode) {
+
+
+    //change table by columns
+
+    int arrCol[n];
+    srand ( time(NULL) );
+    for(int i = 0; i < n;i+=3){
+        int n1=i,n2 =i,n3=i;
+        n1 = (rand() % 3);
+        arrCol[i] = n1+i;
+        do {
+            n2 = rand() % 3;
+        } while (n2 == n1);
+        arrCol[i+1] = n2+i;
+
+        do {
+            n3 = rand() % 3;
+        } while ((n3 == n1) || (n3 == n2));
+        arrCol[i+2] = n3+i;
+    }
+
+    for(int i = 0; i < n ; i++){
+        for(int j = 0; j <n; j++){
+            tableNewCol[i][j] = tableForGen[i][arrCol[j]];
+        }
+    }
+
+    for(int i = 0; i < n;i++){
+        for(int j = 0; j <n; j++){
+            cout<<tableNewCol[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    //change table by rows
+
+    int arrRow[n];
+    srand ( time(NULL) );
+    for(int i = 0; i < n;i+=3){
+        int n1=i,n2 =i,n3=i;
+        n1 = (rand() % 3);
+        arrRow[i] = n1+i;
+        do {
+            n2 = rand() % 3;
+        } while (n2 == n1);
+        arrRow[i+1] = n2+i;
+
+        do {
+            n3 = rand() % 3;
+        } while ((n3 == n1) || (n3 == n2));
+        arrRow[i+2] = n3+i;
+    }
+
+    for(int i = 0; i < n ; i++){
+        for(int j = 0; j <n; j++){
+            tableNewRow[i][j] = tableNewCol[arrRow[i]][j];
+        }
+    }
+    cout<<endl;
+    for(int i = 0; i < n;i++){
+        for(int j = 0; j <n; j++){
+            cout<<tableNewRow[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+    //change table by 9x3
+
+    int arr9x3[3];
+
+    srand ( time(NULL) );
+    int n1=0,n2 =0,n3=0;
+    n1 =(rand() % 3);
+    arr9x3[0] = n1;
+    do {
+        n2 =( rand() % 3);
+    } while (n2 == n1);
+    arr9x3[1] = n2;
+    do {
+        n3 = (rand() % 3);
+    } while ((n3 == n1) || (n3 == n2));
+    arr9x3[2] = n3;
+    for(int i = 0; i <3; i++){
+
+        for(int j = 0; j < n; j++){
+            tableNew9x3[(i*3)][j] = tableNewRow[arr9x3[i]*3][j];
+            tableNew9x3[(i*3)+1][j] = tableNewRow[(arr9x3[i]*3)+1][j];
+            tableNew9x3[(i*3)+2][j] = tableNewRow[(arr9x3[i]*3)+2][j];
+        }
+    }
+
+    cout<<endl;
+    for(int i = 0; i < n;i++){
+        for(int j = 0; j <n; j++){
+            cout<<tableNew9x3[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+
+    //change table by 3x9
+
+    int arr3x9[3];
+
+    srand ( time(NULL) );
+    int m1=0,m2 =0,m3=0;
+    m1 =(rand() % 3);
+    arr3x9[0] = m1;
+    do {
+        m2 =( rand() % 3);
+    } while (m2 == m1);
+    arr3x9[1] = m2;
+    do {
+        m3 = (rand() % 3);
+    } while ((m3 == m1) || (m3 == m2));
+    arr3x9[2] = m3;
+    for(int i = 0; i <n; i++){
+
+        for(int j = 0; j < 3; j++){
+            tableNew3x9[i][j*3] = tableNew9x3[i][(arr3x9[j]*3)];
+            tableNew3x9[i][(j*3)+1] = tableNew9x3[i][(arr3x9[j]*3)+1];
+            tableNew3x9[i][(j*3)+2] = tableNew9x3[i][(arr3x9[j]*3)+2];
+        }
+    }
+
+    cout<<endl;
+    for(int i = 0; i < n;i++){
+        for(int j = 0; j <n; j++){
+            cout<<tableNew3x9[i][j]<<" ";
+        }
+        cout<<endl;
+    }
+
+
+    if(mode == 1){
+        //easyTable
+        srand ( time(NULL) );
+
+        int val =20 + (rand() % 27);
+        val = 81 - val;
+        int arrVal[val];
+
+        for(int i = 0; i < val; i++){
+            int rnd_index = rand() % 65;
+            arrVal[i] = rnd_index;
+
+
+
+        }
+
+
+
+    }else{
+        //table
+
+    }
+
+    //todo
+
+    //hard 20-27 given
+    //easy 30-45
+
+}
+
 //////////Global//////////
 
 void Setup(int var){
@@ -100,6 +262,7 @@ void Setup(int var){
             }
         }
     }
+
 }
 
 void Input() {
@@ -693,6 +856,35 @@ void easyLogic(){
 //////////
 
 int main(){
+SelectMode();
+Draw(tableForGen);
+RandomTable(gameMode);
+
+  
+  
+
+
+
+
+
+
+  
+  
+    /*int arr[n];
+
+    for(int i = 0; i <n; i+= 3){
+        for(int j = 0; j < 3; j++){
+
+               n1 = rand() % 3;
+
+
+        }
+    }
+
+    for(int i : arr){
+        cout<<i;
+    }
+
     SelectMode();
 
        if(gameMode == 1){
@@ -738,7 +930,7 @@ int main(){
            }
 
        }
-
+*/
 
     return 0;
 
